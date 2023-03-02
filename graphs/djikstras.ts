@@ -1,6 +1,6 @@
 const Inf = Number.POSITIVE_INFINITY
 
-const djikstras = (edges: [string, string, number][], head: string) => {
+export const djikstras = (edges: [string, string, number][], head: string) => {
 	const nodes = {} as Record<string, Record<string, number>>
 	const table = {} as Record<string, { last: string, unit: number }>
 	const visited = new Set<string>()
@@ -15,7 +15,7 @@ const djikstras = (edges: [string, string, number][], head: string) => {
 		table[end] ||= end === head ? { last: '', unit: 0 } : { last: '', unit: Inf }
 	})
 
-	const iterate = (head: string, headUnit: number) => {
+	const iterate = (head: string, headUnit: number): void => {
 		if (visited.has(head)) return
 		visited.add(head)
 
@@ -32,12 +32,11 @@ const djikstras = (edges: [string, string, number][], head: string) => {
 			}
 		})
 
-		if (!smallest) return null
+		if (!smallest) return
 		return iterate(smallest.key, smallest.unit)
 	}
 
 	iterate(head, 0)
-	console.log(nodes)
 	return table
 }
 
